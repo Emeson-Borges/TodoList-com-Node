@@ -1,0 +1,5 @@
+npm init -y             --> Para Iniciar o Projeto
+
+npm install express     -->  framework de aplicação web para Node.js
+
+node nomedoarquivo.js   --> Para rodar o servidor

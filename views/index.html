@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Todo List</h1>
+        <ul id="todo-list">
+            <!-- Itens da lista de tarefas serão adicionados aqui -->
+        </ul>
+        <input type="text" id="new-todo" placeholder="Nova tarefa...">
+        <button onclick="addTodo()">Adicionar</button>
+    </div>
+
+    <script>
+        const todos = [
+            { id: 1, task: 'Estudar Node.js', completed: false },
+            { id: 2, task: 'Criar uma API simples', completed: false }
+        ];
+
+        function renderTodos() {
+            const todoList = document.getElementById('todo-list');
+            todoList.innerHTML = '';
+            todos.forEach(todo => {
+                const li = document.createElement('li');
+                li.textContent = todo.task;
+                if (todo.completed) {
+                    li.classList.add('completed');
+                }
+
+                // Criar botão de completar
+                const completeButton = document.createElement('button');
+                completeButton.textContent = todo.completed ? 'Desmarcar' : 'Completar';
+                completeButton.className = 'complete-button';
+                completeButton.onclick = () => toggleComplete(todo.id);
+
+                // Criar botão de excluir
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Excluir';
+                deleteButton.className = 'delete-button';
+                deleteButton.onclick = () => deleteTodo(todo.id);
+
+                li.appendChild(completeButton);
+                li.appendChild(deleteButton);
+                todoList.appendChild(li);
+            });
+        }
+
+        function addTodo() {
+            const newTodoInput = document.getElementById('new-todo');
+            const newTodo = {
+                id: todos.length + 1,
+                task: newTodoInput.value,
+                completed: false
+            };
+            todos.push(newTodo);
+            newTodoInput.value = '';
+            renderTodos();
+        }
+
+        function toggleComplete(id) {
+            const todoIndex = todos.findIndex(todo => todo.id === id);
+            if (todoIndex !== -1) {
+                todos[todoIndex].completed = !todos[todoIndex].completed;
+                renderTodos();
+            }
+        }
+
+        function deleteTodo(id) {
+            const todoIndex = todos.findIndex(todo => todo.id === id);
+            if (todoIndex !== -1) {
+                todos.splice(todoIndex, 1);
+                renderTodos();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', renderTodos);
+    </script>
+</body>
+</html>
